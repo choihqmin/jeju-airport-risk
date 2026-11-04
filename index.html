@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제주공항 결항 위기 예보</title>
+<meta name="description" content="제주공항의 내일 결항 위기(체류객 3,000명 이상) 가능성을 전날 17시 30분 기준 공공데이터로 예보합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF2F4; --surface:#F8FAFB; --ink:#14263A; --muted:#566676; --rule:#C8D2DA; --runway:#39424C;
+  --calm:#2E7D6B; --amber:#B97F00; --amber-fill:#F3C340; --alert:#C33232;
+  --tier:var(--muted); --focus:#1F6FD1;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1824; --surface:#13212F; --ink:#E4EBF1; --muted:#97A7B6; --rule:#26384A; --runway:#A9B4BF;
+    --calm:#55B9A2; --amber:#F0B429; --amber-fill:#F0B429; --alert:#F06464; --focus:#6EA8FF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1824; --surface:#13212F; --ink:#E4EBF1; --muted:#97A7B6; --rule:#26384A; --runway:#A9B4BF;
+  --calm:#55B9A2; --amber:#F0B429; --amber-fill:#F0B429; --alert:#F06464; --focus:#6EA8FF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans KR",system-ui,sans-serif;line-height:1.65;font-variant-numeric:tabular-nums;word-break:keep-all}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 14px;border-bottom:1px solid var(--rule)}
+.brand{font-weight:700;font-size:1rem;letter-spacing:-.01em}
+.brand span{display:block;font-weight:400;font-size:.82rem;color:var(--muted)}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--rule);border-radius:999px;padding:3px}
+.tabs button{font:inherit;font-size:.9rem;border:0;background:transparent;color:var(--muted);padding:6px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+/* 첫 화면 */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center;padding:44px 0 36px}
+.when{font-size:1rem;color:var(--muted);margin:0 0 6px}
+.tierword{font-size:clamp(3rem,9vw,5.6rem);font-weight:700;line-height:1;letter-spacing:-.04em;margin:0;color:var(--tier)}
+.tierline{height:8px;width:min(100%,420px);margin:22px 0 22px;border-radius:4px;background:linear-gradient(90deg,var(--calm) 0 33.3%,var(--amber-fill) 33.3% 66.6%,var(--alert) 66.6%);position:relative;opacity:.9}
+.tierline i{position:absolute;top:-6px;width:4px;height:20px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
+.tierword.plain{font-size:clamp(2.2rem,5.6vw,3.6rem);letter-spacing:-.03em}
+.lede{font-size:1.18rem;line-height:1.6;margin:0 0 12px;max-width:34em}
+.freq{color:var(--muted);margin:0;max-width:36em}
+.issued{color:var(--muted);font-size:.85rem;margin-top:18px}
+.compass{width:100%;max-width:360px;justify-self:center}
+.compass svg{width:100%;height:auto;display:block}
+.compass figcaption{font-size:.88rem;color:var(--muted);text-align:center;margin-top:6px}
+/* 본문 */
+section.block{padding:34px 0;border-top:1px solid var(--rule)}
+section.block h2{font-size:1.25rem;margin:0 0 18px;letter-spacing:-.01em}
+.signals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0 40px;margin:0}
+.signal{padding:14px 0;border-bottom:1px solid var(--rule)}
+.signal dt{font-size:.85rem;color:var(--muted);margin-bottom:2px}
+.signal dd{margin:0}
+.signal .v{font-size:1.15rem;font-weight:500}
+.signal .n{font-size:.9rem;color:var(--muted)}
+blockquote.amo{margin:6px 0 0;padding:0 0 0 14px;border-left:3px solid var(--tier);font-size:.95rem}
+details{margin-top:6px} summary{cursor:pointer;color:var(--muted);font-size:.9rem}
+.todo{list-style:none;margin:0;padding:0;max-width:44em}
+.todo li{padding:10px 0 10px 32px;position:relative;border-bottom:1px solid var(--rule)}
+.todo li::before{content:"";position:absolute;left:4px;top:15px;width:14px;height:14px;border:2px solid var(--tier);border-radius:3px}
+.todo li b{font-weight:500}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{text-align:left;padding:9px 10px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:500;color:var(--muted);font-size:.85rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.t1{--c:var(--calm)} .t2{--c:var(--amber-fill)} .t3{--c:var(--alert)}
+.dot.t1,.dot.t2,.dot.t3{background:var(--c)}
+.tablewrap{overflow-x:auto}
+.method p{max-width:44em;margin:0 0 12px}
+.empty{color:var(--muted)}
+footer{padding:28px 0 48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--rule)}
+footer p{margin:0 0 6px;max-width:60em}
+[hidden]{display:none!important}
+@media (max-width:820px){
+  html{font-size:16px}
+  .wrap{padding:0 16px}
+  .hero{grid-template-columns:1fr;gap:20px;padding:28px 0 24px}
+  .compass{max-width:300px}
+  header.top{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:no-preference){
+  .arrow{transition:transform .6s ease}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">제주공항 결항 위기 예보<span>전날 17시 30분까지의 공공데이터로 내일을 봅니다</span></div>
+    <div class="tabs" role="tablist" aria-label="보는 사람">
+      <button role="tab" id="tab-ops" aria-selected="true" aria-controls="view-ops">대응 실무자</button>
+      <button role="tab" id="tab-trv" aria-selected="false" aria-controls="view-trv">여행객</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <p class="when" id="when">예보를 불러오는 중입니다</p>
+        <p class="tierword" id="tierword">&nbsp;</p>
+        <div class="tierline" aria-hidden="true"><i id="tiermark" style="left:16%"></i></div>
+        <p class="lede" id="lede"></p>
+        <p class="freq" id="freq"></p>
+        <p class="issued" id="issued"></p>
+      </div>
+      <figure class="compass">
+        <svg id="dial" viewBox="-34 -4 388 328" role="img" aria-labelledby="dialtitle">
+          <title id="dialtitle">활주로와 내일 최대 바람</title>
+          <circle cx="160" cy="160" r="132" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+          <g id="ticks"></g>
+          <text x="160" y="16" text-anchor="middle" font-size="13" fill="var(--muted)">북</text>
+          <g transform="rotate(-31.54 160 160)">
+            <rect x="48" y="151" width="224" height="18" rx="2" fill="var(--runway)"/>
+            <line x1="62" y1="160" x2="258" y2="160" stroke="var(--paper)" stroke-width="2" stroke-dasharray="10 9"/>
+            <text x="40" y="164" text-anchor="end" font-size="13" fill="var(--muted)" transform="rotate(31.54 40 160)">07</text>
+            <text x="280" y="164" font-size="13" fill="var(--muted)" transform="rotate(31.54 280 160)">25</text>
+          </g>
+          <g id="wind"></g>
+        </svg>
+        <figcaption id="dialcap">활주로 07/25(방위 58°)와 내일 예보 최대 바람</figcaption>
+      </figure>
+    </div>
+
+    <div id="view-ops" role="tabpanel" aria-labelledby="tab-ops">
+      <section class="block">
+        <h2>이렇게 판단했어요</h2>
+        <dl class="signals" id="signals"></dl>
+      </section>
+      <section class="block">
+        <h2 id="todo-title">이 단계에서 준비할 일</h2>
+        <ul class="todo" id="todo"></ul>
+      </section>
+      <section class="block">
+        <h2>지난 예보와 실제 결과</h2>
+        <div class="tablewrap"><table id="hist"><thead><tr><th>날짜</th><th>예보 단계</th><th>근거</th><th>실제 결항(국내선 출발)</th><th>추정 체류객</th></tr></thead><tbody></tbody></table></div>
+        <p class="empty" id="hist-note"></p>
+      </section>
+      <section class="block method">
+        <h2>이 예보를 만든 방법</h2>
+        <p id="m1"></p>
+        <p id="m2"></p>
+        <p id="m3"></p>
+      </section>
+    </div>
+
+    <div id="view-trv" role="tabpanel" aria-labelledby="tab-trv" hidden>
+      <section class="block">
+        <h2>내일 제주에서 떠나신다면</h2>
+        <ul class="todo" id="trv-todo"></ul>
+      </section>
+      <section class="block method">
+        <h2>이 예보가 말해 주는 것</h2>
+        <p id="trv-m"></p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p id="foot1"></p>
+    <p>자료: 기상청(단기예보·기상특보·공항 관측), 항공기상청(제주공항 기상정보), 한국공항공사(운항정보), 통계청(공항별 여객), 제주관광공사(관광객 지출). 이 예보는 학생 분석 프로젝트이며 항공사·공항의 공식 안내를 대신하지 않습니다.</p>
+  </footer>
+</div>
+
+<script>
+const TIER = {
+  1: { word: '보통', cls: 't1', color: 'var(--calm)', mark: 16.6,
+       lede: '내일은 결항 위기가 올 가능성이 낮습니다.',
+       trvWord: '평소처럼 운항할 것 같아요', trvLede: '내일 제주공항은 결항이 크게 늘 가능성이 낮습니다.' },
+  2: { word: '주의 가능성', cls: 't2', color: 'var(--amber)', mark: 50,
+       lede: '평소보다 위험 신호가 많습니다. 위기로 번질 가능성은 낮지만 살펴볼 날입니다.',
+       trvWord: '결항이 생길 수 있어요', trvLede: '내일은 바람이나 비 때문에 일부 항공편이 결항될 수 있습니다.' },
+  3: { word: '경보', cls: 't3', color: 'var(--alert)', mark: 83.3,
+       lede: '결항이 몰려 3,000명 넘게 발이 묶일 위험이 큰 날입니다.',
+       trvWord: '결항 위험이 커요', trvLede: '내일은 결항이 많이 생겨 공항에 발이 묶일 위험이 큽니다.' },
+};
+const TODO = {
+  1: ['평소 대응 체계를 유지합니다.', '오늘 저녁 발표되는 특보와 항공사 사전결항 공지만 확인합니다.'],
+  2: ['내일 아침 기상특보·공항 관측을 다시 확인할 담당자를 정합니다.', '항공사 사전결항 공지와 결항 편수를 오전에 한 번 더 확인합니다.', '체류객이 생기면 바로 쓸 숙박 안내 문구와 연락처를 점검합니다.'],
+  3: ['도 체류객 대응 \'주의\' 단계 발령에 대비해 담당 부서와 일정을 공유합니다.', '공항 안 담요·물·충전 시설과 긴급수송(택시·전세버스) 대기 가능 여부를 확인합니다.', '숙박업 협회에 빈방 현황을 미리 요청합니다.', '여행객 대상 사전 안내(항공사 공지 확인, 일정 변경 권고)를 준비합니다.'],
+};
+const TRV = {
+  1: ['평소처럼 공항에 가셔도 됩니다.', '출발 전 항공사 앱에서 운항 상태만 한 번 확인하세요.'],
+  2: ['출발 2~3시간 전에 항공사 앱·문자에서 결항·지연 안내를 확인하세요.', '렌터카·숙소는 하루 연장이 가능한지 미리 알아 두세요.', '이른 시간 편으로 바꿀 수 있는지 항공사에 문의해 볼 만합니다.'],
+  3: ['오늘 안에 항공사 공지를 확인하고, 가능하면 출발을 앞당기거나 미루는 것을 검토하세요.', '숙소를 하루 더 잡을 수 있는지 미리 확인하세요. 결항이 몰리면 빈방이 빨리 줄어듭니다.', '결항 안내를 받았다면 공항에서 기다리기보다 항공사 안내에 따라 재예약하세요.', '공항에 가야 한다면 충전기·물·간단한 먹을거리를 챙기세요.'],
+};
+const fmtDate = d => { const t = new Date(d + 'T00:00:00+09:00'); return `${t.getMonth() + 1}월 ${t.getDate()}일 ${'일월화수목금토'[t.getDay()]}요일`; };
+const n0 = x => x == null ? '자료 없음' : Math.round(x).toLocaleString('ko-KR');
+const dirName = d => ['북','북북동','북동','동북동','동','동남동','남동','남남동','남','남남서','남서','서남서','서','서북서','북서','북북서'][Math.round(d / 22.5) % 16];
+const el = id => document.getElementById(id);
+
+function drawTicks() {
+  const g = el('ticks'); let s = '';
+  for (let b = 0; b < 360; b += 30) { const a = (b - 90) * Math.PI / 180; const r1 = 132, r2 = b % 90 ? 124 : 118;
+    s += `<line x1="${160 + r1 * Math.cos(a)}" y1="${160 + r1 * Math.sin(a)}" x2="${160 + r2 * Math.cos(a)}" y2="${160 + r2 * Math.sin(a)}" stroke="var(--muted)" stroke-width="1.2"/>`; }
+  g.innerHTML = s;
+}
+function drawWind(dir, kt, xw) {
+  const g = el('wind'); if (dir == null || kt == null) { g.innerHTML = ''; return; }
+  const a = (dir - 90) * Math.PI / 180, len = Math.min(110, 30 + kt * 3.2);
+  const sx = 160 + 140 * Math.cos(a), sy = 160 + 140 * Math.sin(a), ex = 160 + (140 - len) * Math.cos(a), ey = 160 + (140 - len) * Math.sin(a);
+  const hx = ex - sx, hy = ey - sy, L = Math.hypot(hx, hy), ux = hx / L, uy = hy / L;
+  const p1 = `${ex},${ey}`, p2 = `${ex - 12 * ux + 7 * uy},${ey - 12 * uy - 7 * ux}`, p3 = `${ex - 12 * ux - 7 * uy},${ey - 12 * uy + 7 * ux}`;
+  g.innerHTML = `<line x1="${sx}" y1="${sy}" x2="${ex - 8 * ux}" y2="${ey - 8 * uy}" stroke="var(--tier)" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="${p1} ${p2} ${p3}" fill="var(--tier)"/>
+    <text x="${sx + 14 * Math.cos(a)}" y="${sy + 14 * Math.sin(a) + 4}" text-anchor="middle" font-size="13" font-weight="500" fill="var(--ink)">${Math.round(kt)}kt</text>`;
+  el('dialcap').textContent = `내일 예보 최대 바람: ${dirName(dir)}풍 ${Math.round(kt)}kt. 활주로를 가로지르는 바람(측풍)은 최대 ${xw == null ? '—' : Math.round(xw)}kt이며, 20kt를 넘으면 결항이 급격히 늘었습니다.`;
+}
+function freqText(ref, d) {
+  const key = d.basis === 'combo' ? 'tiers_combo' : 'tiers_model_only';
+  const per = Object.keys(ref[key])[0]; const s = ref[key][per][String(d.tier)];
+  if (!s) return '';
+  const label = per.replace('CV ', '').replace('-09-15', '년 9월');
+  if (d.tier === 1) return `${label} 기간에 이렇게 판단한 ${s.days.toLocaleString('ko-KR')}일 중 실제 위기는 ${s.crisis}일이었습니다.`;
+  return `${label} 기간에 이렇게 판단한 ${s.days}일 중 ${s.crisis}일(${Math.round(s.crisis / s.days * 100)}%)에 실제로 3,000명 넘게 발이 묶였습니다.`;
+}
+function signals(d) {
+  const f = d.forecast || {}, o = d.observed_d1 || {}, w = d.warnings || {}, fl = d.flights || {};
+  const wName = { pre_W: '강풍', pre_T: '태풍', pre_S: '대설', pre_R: '호우' }, lv = ['', '예비특보', '주의보', '경보'];
+  const wl = Object.entries(w).filter(([, v]) => v > 0).map(([k, v]) => `${wName[k]} ${lv[v] || ''}`);
+  const rows = [];
+  if (d.bulletin) rows.push(['항공기상청 예보관 17시 발표문', `<span class="v">${d.bulletin.head ? d.bulletin.head.replace(/^-\s*|\s*-$/g, '') : '위험기상 언급 있음'}</span>` +
+      (d.bulletin.risk ? `<details><summary>위험 기상예보 원문 보기</summary><blockquote class="amo">${d.bulletin.risk}</blockquote></details>` : '')]);
+  else rows.push(['항공기상청 예보관 17시 발표문', '<span class="v">아직 반영 전</span><div class="n">발표문을 반영하면 단계가 바뀔 수 있습니다. 지금 단계는 기상·운항 자료만으로 계산했습니다.</div>']);
+  rows.push(['단기예보 (내일 06~23시)', `<span class="v">최대 ${n0(f.wsd_max_kt)}kt, 측풍 최대 ${n0(f.xwind_max_kt)}kt</span><div class="n">측풍 20kt 이상 ${f.hrs_xwind_ge20kt ?? '—'}시간, 강수 ${f.hrs_rain ?? '—'}시간, 강설 ${f.hrs_snow ?? '—'}시간</div>`]);
+  rows.push(['기상특보 예고 (오늘 17시 기준)', `<span class="v">${wl.length ? wl.join(', ') : '예고 없음'}</span>`]);
+  rows.push(['오늘 공항 관측 (06~17시)', `<span class="v">최대 바람 ${n0(o.wind_max_kt)}kt, 측풍 ${n0(o.xwind_max_kt)}kt</span><div class="n">돌풍 ${o.gust_max_kt == null ? '기록 없음' : n0(o.gust_max_kt) + 'kt'}, 최저 시정 ${o.vis_min_m == null ? '—' : (o.vis_min_m / 1000).toFixed(1) + 'km'}</div>`]);
+  rows.push(['운항', `<span class="v">국내선 출발 ${n0(fl.plan)}편 예정</span><div class="n">이틀 전 결항 ${fl.d2_cancel ?? '—'}편${fl.plan_source && fl.plan_source.startsWith('대체') ? '. 편수는 내일 예정표 기준이에요' : ''}</div>`]);
+  el('signals').innerHTML = rows.map(([k, v]) => `<div class="signal"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+}
+function history(h) {
+  const tb = document.querySelector('#hist tbody');
+  if (!h.length) { el('hist-note').textContent = '아직 기록이 없습니다.'; return; }
+  tb.innerHTML = h.slice().reverse().map(r => {
+    const t = TIER[r.tier]; const a = r.actual;
+    const act = a ? `${a.cancel}편${a.precancel ? ` (사전결항 ${a.precancel}편 별도)` : ''}` : '집계 전';
+    const st = a ? `${n0(a.stranded)}명${a.crisis ? ' (위기)' : ''}` : '—';
+    return `<tr><td>${fmtDate(r.target)}</td><td>${t ? `<span class="dot ${t.cls}"></span>${t.word}` : '보류'}</td><td>${r.basis === 'combo' ? '발표문 반영' : '기상·운항'}</td><td>${act}</td><td>${st}</td></tr>`;
+  }).join('');
+  el('hist-note').textContent = '실제 결과는 다음 날 이후 한국공항공사 운항 기록으로 채점합니다. 판단 기준은 예보를 내기 전에 정해 두었습니다.';
+}
+function method(ref, d) {
+  const f = ref.facts;
+  el('m1').textContent = `기상청 단기예보·기상특보·공항 관측, 항공기상청 예보관 발표문, 한국공항공사 운항 기록 등 ${f.agencies}개 기관의 원자료 약 ${Math.round(f.data_records / 1e4)}만 건을 하루 단위 ${f.days.toLocaleString('ko-KR')}일로 묶었습니다. 모든 자료는 전날 17시 30분에 이미 알 수 있었던 것만 씁니다.`;
+  el('m2').textContent = `기상특보만 보면 지난 위기일의 ${Math.round(f.warning_miss_rate * 100)}%를 놓쳤습니다. 예보·관측·운항과 예보관 발표문을 함께 쓰면 위험한 날을 가려내는 정확도(평균 정밀도)가 2022년 9월~2024년에 0.26에서 0.65로 올랐습니다. 다만 위기일이 연 ${f.crisis_days_per_year_2018_2024}일꼴로 드물어 결과의 불확실성이 큽니다.`;
+  el('m3').textContent = `결항으로 발이 묶인 여행객이 떠안는 비용은 연 ${Math.round(f.loss_low_eok)}억~${Math.round(f.loss_high_eok)}억 원(기본 추정 ${Math.round(f.loss_base_eok)}억 원)으로 추정됩니다. 모델은 미리 고정해 두었고(지문 ${ref.model_sha}), 2026년 11월 5일 예보부터 매일 기록을 공개합니다.`;
+  el('trv-m').textContent = `이 예보는 내일 제주공항에서 결항이 몰려 3,000명 넘게 발이 묶일 가능성을 세 단계로 알려 줍니다. 개별 항공편의 운항 여부는 알려 주지 않으니, 최종 확인은 꼭 항공사 안내로 하세요.`;
+  el('foot1').textContent = d ? `예보 기준: ${d.issued_kst} 기록, 모델 ${ref.model_sha}. 단계는 '보통' '주의 가능성' '경보' 세 가지입니다.` : '';
+}
+function render(view, d, ref) {
+  const t = TIER[d.tier] || null;
+  document.documentElement.style.setProperty('--tier', t ? t.color : 'var(--muted)');
+  el('when').textContent = `${fmtDate(d.target)} 제주공항`;
+  el('tierword').textContent = t ? (view === 'trv' ? t.trvWord : t.word) : '예보 보류'; el('tierword').classList.toggle('plain', view === 'trv');
+  el('tiermark').style.left = (t ? t.mark : 50) + '%';
+  el('lede').textContent = t ? (view === 'trv' ? t.trvLede : t.lede) : '필요한 자료를 받지 못해 오늘은 예보를 내지 않았습니다.';
+  el('freq').textContent = t && view === 'ops' ? freqText(ref, d) : '';
+  el('issued').textContent = `${d.issued_kst} 발표 기준`;
+  el('todo').innerHTML = (TODO[d.tier] || []).map(x => `<li>${x}</li>`).join('');
+  el('trv-todo').innerHTML = (TRV[d.tier] || []).map(x => `<li>${x}</li>`).join('');
+}
+async function main() {
+  drawTicks();
+  const get = p => fetch(p, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null);
+  const [d, h, ref] = await Promise.all([get('data/latest.json'), get('data/history.json'), get('data/reference.json')]);
+  if (!d || !ref) { el('when').textContent = '예보 자료를 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.'; return; }
+  let view = 'ops';
+  const setView = v => { view = v; el('tab-ops').setAttribute('aria-selected', v === 'ops'); el('tab-trv').setAttribute('aria-selected', v === 'trv');
+    el('view-ops').hidden = v !== 'ops'; el('view-trv').hidden = v !== 'trv'; render(view, d, ref); try { localStorage.setItem('view', v); } catch (e) {} };
+  el('tab-ops').onclick = () => setView('ops'); el('tab-trv').onclick = () => setView('trv');
+  document.querySelector('.tabs').addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const nv = view === 'ops' ? 'trv' : 'ops'; setView(nv); el(nv === 'ops' ? 'tab-ops' : 'tab-trv').focus(); } });
+  signals(d); history(h || []); method(ref, d);
+  drawWind(d.forecast?.dir_at_max_deg, d.forecast?.wsd_max_kt, d.forecast?.xwind_max_kt);
+  let saved = 'ops'; try { saved = localStorage.getItem('view') || 'ops'; } catch (e) {}
+  setView(saved);
+}
+main();
+</script>
+</body>
+</html>

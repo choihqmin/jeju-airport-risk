@@ -1,0 +1,46 @@
+{
+ "target": "2026-11-05",
+ "issued_kst": "2026-11-04 17:35",
+ "model_p": 0.048331,
+ "basis": "combo",
+ "combo": 0.9226110363391655,
+ "tier": 2,
+ "amo_score": 40,
+ "token": "WSV35g25",
+ "actual": null,
+ "model_sha": "53887ccced3d62b7",
+ "bulletin": {
+  "issue_date": "2026-11-04",
+  "token": "WSV35g25",
+  "head": "- 오늘 ~ 내일 오전사이 비/ 내일 강풍, 급변풍, 저시정, 구름고도 유의 -",
+  "risk": "○ (강풍, 급변풍) 늦은밤까지 동풍류가 평균풍속 15kt 안팎, 최대순간풍속 25kt 안팎으로 약간 강하게 불겠고, 내일 늦은새벽부터 낮 까지 남서~서풍이 평균풍속 15~20kt, 최대순간풍속 25~35kt로 강하게 불고, 풍향 변화 및 풍속 차이에 의한 급변풍이 예상됩니다. ○ (시정, 구름고도) 내일 늦은새벽부터 오전까지 강한 비가 내리는 동안 시정이 3km 안팎으로 짧아지고, 구름고도도 1000ft 안팎으로 낮아질 때가 있겠습니다."
+ },
+ "forecast": {
+  "wsd_max_kt": 21.965392,
+  "xwind_max_kt": 14.74490667906983,
+  "dir_at_max_deg": 266,
+  "hrs_xwind_ge20kt": 0,
+  "hrs_xwind_ge14kt": 1,
+  "hrs_snow": 0,
+  "hrs_rain": 10,
+  "issue": "2026-11-04 17:00"
+ },
+ "observed_d1": {
+  "wind_max_kt": 13,
+  "xwind_max_kt": 9.396510759627649,
+  "gust_max_kt": null,
+  "vis_min_m": 6000,
+  "hrs_snow": 0
+ },
+ "warnings": {
+  "pre_W": 1,
+  "pre_T": 0,
+  "pre_S": 0,
+  "pre_R": 0
+ },
+ "flights": {
+  "plan": 204,
+  "plan_source": "대체: 대상일 예정 운항편수(D-7 기록 없음)",
+  "d2_cancel": 0
+ }
+}
