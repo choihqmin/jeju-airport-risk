@@ -62,5 +62,6 @@ console.log(`latest ${latest?.target} 단계 ${latest?.tier} (${latest?.basis}) 
 if (process.argv.includes('--push')) {
   const g = (...a) => execFileSync('git', a, { cwd: SITE, stdio: 'pipe' }).toString();
   g('add', 'data/latest.json', 'data/history.json');
-  try { g('commit', '-m', `예보 갱신 ${latest?.target ?? ''}`); g('push'); console.log('올림 완료'); } catch (e) { console.log('바뀐 내용 없음 또는 올리기 실패:', String(e.stderr || e.message).slice(0, 200)); }
+  if (!g('status', '--porcelain', 'data').trim()) { console.log('바뀐 내용 없음 (올릴 것 없음)'); }
+  else { try { g('commit', '-m', `예보 갱신 ${latest?.target ?? ''}`); g('push'); console.log('올림 완료'); } catch (e) { console.log('올리기 실패:', String(e.stderr || e.message).slice(0, 300)); process.exitCode = 1; } }
 }
