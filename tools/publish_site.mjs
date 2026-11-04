@@ -36,6 +36,18 @@ function actualOf(d) {
   if (!s) return null; const ppf = ppfOf(d), nc = +s.n_cancel, npc = +(s.n_precancel || 0);
   return { cancel: nc, precancel: npc, flights: +s.n_operating_flights, stranded: Math.round(nc * ppf), stranded_incl_precancel: Math.round((nc + npc) * ppf), crisis: nc * ppf >= 3000 ? 1 : 0, snapshot: s.fetched_kst };
 }
+// 내일 06~23시 시간대별 바람(예측에 쓴 바람 발표분 그대로)
+function hourlyOf(target, issue) {
+  if (!issue) return [];
+  const f = J(`raw/live/${target.replace(/-/g, '')}/fcst_${issue.slice(0, 10).replace(/-/g, '')}_${issue.slice(11, 13)}00.json`);
+  if (!existsSync(f)) return [];
+  const want = target.replace(/-/g, ''), v = {};
+  for (const x of JSON.parse(readFileSync(f, 'utf8'))) if (x.fcstDate === want && ['WSD', 'VEC', 'PTY'].includes(x.category)) { (v[+x.fcstTime.slice(0, 2)] ??= {})[x.category] = +x.fcstValue; }
+  const out = [];
+  for (let h = 6; h <= 23; h++) { const r = v[h]; if (!r || r.WSD == null || r.VEC == null) continue;
+    out.push({ h, wind_kt: +(r.WSD * 1.94384).toFixed(1), xwind_kt: +(r.WSD * Math.abs(Math.sin((r.VEC - 58.46) * Math.PI / 180)) * 1.94384).toFixed(1), dir: r.VEC, rain: r.PTY > 0 ? 1 : 0 }); }
+  return out;
+}
 const preds = csv(J('data/live_predictions.csv')).filter(r => r.recorded_before_target === '1');
 const byTarget = {}; for (const r of preds) if (!byTarget[r.target] || byTarget[r.target].run_kst > r.run_kst) byTarget[r.target] = r;   // 대상일마다 첫 공식 기록
 const history = Object.values(byTarget).sort((a, b) => a.target.localeCompare(b.target)).map(r => {
@@ -53,6 +65,7 @@ if (last) {
     forecast: { wsd_max_kt: ft.fc_wsd_max_kt ?? null, xwind_max_kt: ft.fc_xwind_max_kt ?? null, dir_at_max_deg: dir, hrs_xwind_ge20kt: ft.fc_hrs_xwind_ge20kt ?? null,
                 hrs_xwind_ge14kt: ft.fc_hrs_xwind_ge14kt ?? null, hrs_snow: ft.fc_hrs_snow ?? null, hrs_rain: ft.fc_hrs_rain ?? null, issue: ft.fc_issue_wind ?? null },
     observed_d1: { wind_max_kt: ft.d1_obs_wind_max_kt ?? null, xwind_max_kt: ft.d1_obs_xwind_max_kt ?? null, gust_max_kt: ft.d1_obs_gust_max_kt ?? null, vis_min_m: ft.d1_obs_vis_min_m ?? null, hrs_snow: ft.d1_obs_hrs_snow ?? null },
+    hourly: hourlyOf(last.target, ft.fc_issue_wind),
     warnings: f.pre || {}, flights: { plan: ft.plan_dep_lag7 ?? null, plan_source: ft.plan_source ?? null, d2_cancel: ft.d2_cancel_dep ?? null } };
 }
 mkdirSync(path.join(SITE, 'data'), { recursive: true });
