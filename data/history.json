@@ -8,6 +8,19 @@
   "tier": 2,
   "amo_score": 40,
   "token": "WSV35g25",
+  "provisional": false,
+  "actual": null
+ },
+ {
+  "target": "2026-11-06",
+  "issued_kst": "2026-11-05 17:35",
+  "model_p": 0.0010441491114947996,
+  "basis": "combo",
+  "combo": 0.6355989232839838,
+  "tier": 1,
+  "amo_score": 30,
+  "token": "W25g25",
+  "provisional": false,
   "actual": null
  }
 ]

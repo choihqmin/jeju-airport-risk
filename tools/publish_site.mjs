@@ -31,28 +31,40 @@ function tierOf(p, issue) {
 // 실제 결과(사전 등록 4-1): 대상일 다음 날 이후 처음 수집한 스냅숏
 const kac = csv(J('data/kac_cju_dep_daily.csv')); const ppfRows = csv(J('data/pax_per_flight_monthly.csv'));
 const ppfOf = d => { const m = d.slice(0, 7); const r = ppfRows.find(x => x.month === m) || ppfRows[ppfRows.length - 1]; return r ? +r.ppf : null; };
-function actualOf(d) {
-  const ymd = d.replace(/-/g, ''); const s = kac.filter(r => r.searchday === ymd && r.fetched_kst.slice(0, 8) > ymd).sort((a, b) => a.fetched_kst.localeCompare(b.fetched_kst))[0];
+const addDays = (d, k) => new Date(Date.parse(d + 'T00:00:00Z') + k * 864e5).toISOString().slice(0, 10).replace(/-/g, '');
+function actualOf(d) {   // 사전 등록 4-1: 대상일 D 의 D+1~D+3 수집 스냅숏 중 가장 이른 것. 없으면 '정답 없음'(null)
+  const ymd = d.replace(/-/g, ''), lo = addDays(d, 1), hi = addDays(d, 3);
+  const s = kac.filter(r => r.searchday === ymd && r.fetched_kst.slice(0, 8) >= lo && r.fetched_kst.slice(0, 8) <= hi).sort((a, b) => a.fetched_kst.localeCompare(b.fetched_kst))[0];
   if (!s) return null; const ppf = ppfOf(d), nc = +s.n_cancel, npc = +(s.n_precancel || 0);
-  return { cancel: nc, precancel: npc, flights: +s.n_operating_flights, stranded: Math.round(nc * ppf), stranded_incl_precancel: Math.round((nc + npc) * ppf), crisis: nc * ppf >= 3000 ? 1 : 0, snapshot: s.fetched_kst };
+  if (!Number.isFinite(nc) || !Number.isFinite(ppf)) return null;
+  return { cancel: nc, precancel: npc, flights: +s.n_operating_flights, ppf, stranded: Math.round(nc * ppf), stranded_incl_precancel: Math.round((nc + npc) * ppf), crisis: nc * ppf >= 3000 ? 1 : 0, snapshot: s.fetched_kst };
 }
 // 내일 06~23시 시간대별 바람(예측에 쓴 바람 발표분 그대로)
-function hourlyOf(target, issue) {
-  if (!issue) return [];
-  const f = J(`raw/live/${target.replace(/-/g, '')}/fcst_${issue.slice(0, 10).replace(/-/g, '')}_${issue.slice(11, 13)}00.json`);
-  if (!existsSync(f)) return [];
-  const want = target.replace(/-/g, ''), v = {};
-  for (const x of JSON.parse(readFileSync(f, 'utf8'))) if (x.fcstDate === want && ['WSD', 'VEC', 'PTY'].includes(x.category)) { (v[+x.fcstTime.slice(0, 2)] ??= {})[x.category] = +x.fcstValue; }
+function hourlyOf(target, issueWind, issuePty) {
+  const want = target.replace(/-/g, '');
+  const load = (issue, cats) => { const v = {}; if (!issue) return v;
+    const f = J(`raw/live/${want}/fcst_${issue.slice(0, 10).replace(/-/g, '')}_${issue.slice(11, 13)}00.json`); if (!existsSync(f)) return v;
+    for (const x of JSON.parse(readFileSync(f, 'utf8'))) if (x.fcstDate === want && cats.includes(x.category)) (v[+x.fcstTime.slice(0, 2)] ??= {})[x.category] = +x.fcstValue;
+    return v; };
+  const w = load(issueWind, ['WSD', 'VEC', 'UUU', 'VVV']), pt = load(issuePty || issueWind, ['PTY']);
   const out = [];
-  for (let h = 6; h <= 23; h++) { const r = v[h]; if (!r || r.WSD == null || r.VEC == null) continue;
-    out.push({ h, wind_kt: +(r.WSD * 1.94384).toFixed(1), xwind_kt: +(r.WSD * Math.abs(Math.sin((r.VEC - 58.46) * Math.PI / 180)) * 1.94384).toFixed(1), dir: r.VEC, rain: r.PTY > 0 ? 1 : 0 }); }
+  for (let h = 6; h <= 23; h++) { const r = w[h]; if (!r) continue;
+    let ws = r.WSD, dir = r.VEC;
+    if ((ws == null || dir == null) && r.UUU != null && r.VVV != null) { ws = Math.hypot(r.UUU, r.VVV); dir = (Math.atan2(-r.UUU, -r.VVV) * 180 / Math.PI + 360) % 360; }   // 풍속·풍향이 없으면 동서·남북 성분으로 복원
+    if (ws == null || dir == null) continue;
+    const pty = pt[h]?.PTY ?? 0;   // 0 없음, 1 비, 2 비/눈, 3 눈, 4 소나기
+    out.push({ h, wind_kt: +(ws * 1.94384).toFixed(1), xwind_kt: +(ws * Math.abs(Math.sin((dir - 58.46) * Math.PI / 180)) * 1.94384).toFixed(1), dir, pty, rain: pty > 0 ? 1 : 0 }); }
   return out;
 }
 const preds = csv(J('data/live_predictions.csv')).filter(r => r.recorded_before_target === '1');
 const byTarget = {}; for (const r of preds) if (!byTarget[r.target] || byTarget[r.target].run_kst > r.run_kst) byTarget[r.target] = r;   // 대상일마다 첫 공식 기록
+const histFile = path.join(SITE, 'data', 'history.json');
+const prev = existsSync(histFile) ? Object.fromEntries(JSON.parse(readFileSync(histFile, 'utf8')).map(h => [h.target, h])) : {};
 const history = Object.values(byTarget).sort((a, b) => a.target.localeCompare(b.target)).map(r => {
-  const p = r.p_caution === '' ? null : +r.p_caution; const t = tierOf(p, dayBefore(r.target));
-  return { target: r.target, issued_kst: r.run_kst, model_p: p, ...t, actual: actualOf(r.target) };
+  const p = r.p_caution === '' ? null : +r.p_caution; const old = prev[r.target];
+  const t = old && old.basis === 'combo' ? { basis: old.basis, combo: old.combo, tier: old.tier, amo_score: old.amo_score, token: old.token } : tierOf(p, dayBefore(r.target));
+  const actual = old && old.actual ? old.actual : actualOf(r.target);
+  return { target: r.target, issued_kst: r.run_kst, model_p: p, ...t, provisional: t.basis !== 'combo', actual };
 });
 const last = history[history.length - 1];
 let latest = null;
@@ -65,7 +77,7 @@ if (last) {
     forecast: { wsd_max_kt: ft.fc_wsd_max_kt ?? null, xwind_max_kt: ft.fc_xwind_max_kt ?? null, dir_at_max_deg: dir, hrs_xwind_ge20kt: ft.fc_hrs_xwind_ge20kt ?? null,
                 hrs_xwind_ge14kt: ft.fc_hrs_xwind_ge14kt ?? null, hrs_snow: ft.fc_hrs_snow ?? null, hrs_rain: ft.fc_hrs_rain ?? null, issue: ft.fc_issue_wind ?? null },
     observed_d1: { wind_max_kt: ft.d1_obs_wind_max_kt ?? null, xwind_max_kt: ft.d1_obs_xwind_max_kt ?? null, gust_max_kt: ft.d1_obs_gust_max_kt ?? null, vis_min_m: ft.d1_obs_vis_min_m ?? null, hrs_snow: ft.d1_obs_hrs_snow ?? null },
-    hourly: hourlyOf(last.target, ft.fc_issue_wind),
+    hourly: hourlyOf(last.target, ft.fc_issue_wind, ft.fc_issue_pty), generated_kst: new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 16).replace('T', ' '),
     warnings: f.pre || {}, flights: { plan: ft.plan_dep_lag7 ?? null, plan_source: ft.plan_source ?? null, d2_cancel: ft.d2_cancel_dep ?? null } };
 }
 mkdirSync(path.join(SITE, 'data'), { recursive: true });
@@ -74,7 +86,9 @@ writeFileSync(path.join(SITE, 'data', 'history.json'), JSON.stringify(history, n
 console.log(`latest ${latest?.target} 단계 ${latest?.tier} (${latest?.basis}) | 기록 ${history.length}일`);
 if (process.argv.includes('--push')) {
   const g = (...a) => execFileSync('git', a, { cwd: SITE, stdio: 'pipe' }).toString();
-  g('add', 'data/latest.json', 'data/history.json');
-  if (!g('status', '--porcelain', 'data').trim()) { console.log('바뀐 내용 없음 (올릴 것 없음)'); }
+  // 사이트 파일만 올린다(정해 둔 목록). 화면·도구를 고친 것도 다음 자동 실행 때 함께 올라간다.
+  const files = ['index.html', 'README.md', '.nojekyll', 'data/latest.json', 'data/history.json', 'data/reference.json', 'data/backtest_calendar.json', 'tools/publish_site.mjs'].filter(f => existsSync(path.join(SITE, f)));
+  g('add', '--', ...files);
+  if (!g('diff', '--cached', '--name-only').trim()) { console.log('바뀐 내용 없음 (올릴 것 없음)'); }
   else { try { g('commit', '-m', `예보 갱신 ${latest?.target ?? ''}`); g('push'); console.log('올림 완료'); } catch (e) { console.log('올리기 실패:', String(e.stderr || e.message).slice(0, 300)); process.exitCode = 1; } }
 }
