@@ -190,7 +190,7 @@ footer p{margin:0 0 6px;max-width:60em}
         <p class="chart-take" id="cal-take"></p>
         <div class="cal-read" aria-label="달력 읽는 법">
           <div class="rk"><span><i class="kp"><i style="background:var(--alert)"></i><i></i></i><b>윗줄</b> 기상특보만 봤을 때</span><span><i class="kp"><i></i><i style="background:var(--amber-mark)"></i></i><b>아랫줄</b> 이 예보</span></div>
-          <div class="legend cal-colors"><span><i class="sw" style="background:var(--grid);outline:1px solid var(--rule)"></i>신호 없음·보통</span><span><i class="sw" style="background:var(--amber-mark)"></i>주의 가능성</span><span><i class="sw" style="background:var(--alert)"></i>경보·특보 예고(주의보 이상)</span><span><i class="ringk"></i>실제 위기</span></div>
+          <div class="legend cal-colors"><span><i class="sw" style="background:var(--grid);outline:1px solid var(--rule)"></i>신호 없음·보통</span><span><i class="sw" style="background:var(--amber-mark)"></i>주의 가능성</span><span><i class="sw" style="background:var(--alert)"></i>주의 유력·특보 예고(주의보 이상)</span><span><i class="ringk"></i>실제 위기</span></div>
         </div>
         <div class="chart-scroll"><svg id="cal" viewBox="0 0 1000 600" role="img" aria-label="2025년 1월부터 2026년 10월까지 날짜별 기상특보 예고와 이 예보의 단계, 실제 위기일"></svg></div>
         <p class="cal-note" id="cal-note"></p>
@@ -236,7 +236,7 @@ const TIER = {
   2: { word: '주의 가능성', cls: 't2', color: 'var(--amber)', mark: 50,
        lede: '위험 신호가 평소보다 많은 날입니다. 큰 결항으로 이어진 적은 드물었지만, 당일 오전에 한 번 더 확인하세요.',
        trvWord: '결항이 생길 수 있어요', trvLede: '이날은 바람이나 비로 일부 항공편이 결항될 수 있어요.' },
-  3: { word: '경보', cls: 't3', color: 'var(--alert)', mark: 83.3,
+  3: { word: '주의 유력', cls: 't3', color: 'var(--alert)', mark: 83.3,
        lede: '결항이 몰려 3,000명 넘게 발이 묶일 위험이 큰 날입니다.',
        trvWord: '결항 위험이 커요', trvLede: '이날은 결항이 많이 생겨 공항에 발이 묶일 위험이 커요.' },
 };
@@ -318,7 +318,7 @@ function method(ref, d) {
   el('m2').textContent = `전날 기상특보 예고만 봤다면 2020~2024년 위기일의 ${Math.round(f.warning_miss_rate * 100)}%를 놓쳤습니다. 예보·관측·운항 자료와 예보관 발표문을 합치자, 위험한 날을 골라내는 정확도(평균 정밀도, 1이 만점)가 0.26에서 0.65로 올랐습니다(2022년 9월~2024년). 다만 위기일이 한 해 ${Math.round(f.crisis_days_per_year_2018_2024)}일 남짓으로 드물어 이 숫자에는 불확실성이 큽니다.`;
   el('m3').textContent = `결항편 승객이 떠안는 추가 비용을 2025년 관광객 지출 단가로 계산하면 한 해 ${Math.round(f.loss_low_eok)}억 원(시간 손실만)~${Math.round(f.loss_high_eok)}억 원(1.5일 지연 가정), 기본 추정(시간 손실과 숙박 1박)으로 ${Math.round(f.loss_base_eok)}억 원입니다. 가정에 따라 달라지는 시나리오 값입니다. 모델은 미리 고정해 두었고(지문 ${ref.model_sha}), 11월 5일 예보부터 매일 기록을 공개합니다.`;
   el('trv-m').textContent = `이 예보는 그날 제주공항에 결항이 몰려 3,000명 넘게 발이 묶일 가능성을 세 단계로 알려 드려요. 내 항공편이 뜨는지는 알 수 없으니, 최종 확인은 꼭 항공사 안내로 하세요.`;
-  el('foot1').textContent = d ? `${fmtIssued(d.issued_kst)} 기록 · 모델 지문 ${ref.model_sha} · 단계는 보통, 주의 가능성, 경보 세 가지` : '';
+  el('foot1').textContent = d ? `${fmtIssued(d.issued_kst)} 기록 · 모델 지문 ${ref.model_sha} · 단계는 보통, 주의 가능성, 주의 유력 세 가지` : '';
 }
 function render(view, d, ref) {
   const t = TIER[d.tier] || null;
@@ -385,11 +385,11 @@ function drawCalendar(C){
     mk(s,'rect',{x:x0+ig/2,y:y0+sub,width:cw-ig,height:ch,rx:1.5,fill:col[r.t]});
     if(r.c) rings.push([x0,y0]);
     const hit=mk(s,'rect',{x:x0,y:y0,width:cw,height:sub+ch,fill:'transparent'});
-    hit.addEventListener('pointermove',e=>showTip(e,`<b>${r.d}</b><br>기상특보 예고 ${r.w?'있음':'없음'}<br>이 예보 ${['','보통','주의 가능성','경보'][r.t]}<br>추정 체류객 ${n0(r.s)}명${r.c?' (위기)':''}`)); hit.addEventListener('pointerleave',hideTip)});
+    hit.addEventListener('pointermove',e=>showTip(e,`<b>${r.d}</b><br>기상특보 예고 ${r.w?'있음':'없음'}<br>이 예보 ${['','보통','주의 가능성','주의 유력'][r.t]}<br>추정 체류객 ${n0(r.s)}명${r.c?' (위기)':''}`)); hit.addEventListener('pointerleave',hideTip)});
   rings.forEach(([x0,y0])=>mk(s,'rect',{x:x0-1,y:y0-3,width:cw+2,height:sub+ch+6,rx:3,fill:'none',stroke:'var(--ink)','stroke-width':narrow?3:2.5,'pointer-events':'none'}));
   s.setAttribute('viewBox',`0 0 ${W} ${T+months.length*rh}`);
   const crisis=C.filter(r=>r.c).length, wd=C.filter(r=>r.w).length, wh=C.filter(r=>r.w&&r.c).length, ad=C.filter(r=>r.t===3).length, ah=C.filter(r=>r.t===3&&r.c).length, ad2=C.filter(r=>r.t>=2&&r.c).length;
-  el('cal-take').textContent=`2025년 1월부터 2026년 10월까지 결항편 승객이 3,000명을 넘은 날(추정)은 ${crisis}일입니다(검은 테두리). 기상특보 예고는 ${wd}일 있었지만, 그중 위기일은 ${wh}일뿐입니다. 이 예보는 경보를 ${ad}일 냈고 그중 ${ah}일이 실제 위기였습니다. 나머지 위기 ${ad2-ah}일도 '주의 가능성'으로 짚었습니다.`;
+  el('cal-take').textContent=`2025년 1월부터 2026년 10월까지 결항편 승객이 3,000명을 넘은 날(추정)은 ${crisis}일입니다(검은 테두리). 기상특보 예고는 ${wd}일 있었지만, 그중 위기일은 ${wh}일뿐입니다. 이 예보는 '주의 유력'을 ${ad}일 냈고 그중 ${ah}일이 실제 위기였습니다. 나머지 위기 ${ad2-ah}일도 '주의 가능성'으로 짚었습니다.`;
   el('cal-note').textContent='지금 쓰는 단계 기준을 지난 기간에 거꾸로 적용해 본 결과라 설명용입니다. 단계 기준을 정할 때 이 기간의 점수 분포도 함께 썼기 때문에, 처음 보는 자료로 본 시험과는 다릅니다. 예보관 발표문이 있는 날만 표시했습니다.';
 }
 
