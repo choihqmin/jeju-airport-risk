@@ -1,7 +1,7 @@
 {
- "target": "2026-11-09",
- "issued_kst": "2026-11-08 17:35",
- "model_p": 0.003583648270461223,
+ "target": "2026-11-10",
+ "issued_kst": "2026-11-09 17:35",
+ "model_p": 0.0002927323433465241,
  "basis": "model",
  "combo": null,
  "tier": 1,
@@ -12,178 +12,178 @@
  "model_sha": "53887ccced3d62b7",
  "bulletin": null,
  "forecast": {
-  "wsd_max_kt": 15.55072,
-  "xwind_max_kt": 13.109507861918855,
-  "dir_at_max_deg": 1,
+  "wsd_max_kt": 10.496736,
+  "xwind_max_kt": 8.946107603582982,
+  "dir_at_max_deg": 0,
   "hrs_xwind_ge20kt": 0,
   "hrs_xwind_ge14kt": 0,
   "hrs_snow": 0,
-  "hrs_rain": 17,
-  "issue": "2026-11-08 17:00"
+  "hrs_rain": 0,
+  "issue": "2026-11-09 17:00"
  },
  "observed_d1": {
-  "wind_max_kt": 17,
-  "xwind_max_kt": 6.631427564279598,
-  "gust_max_kt": null,
-  "vis_min_m": 10000,
+  "wind_max_kt": 15,
+  "xwind_max_kt": 11.22739413374064,
+  "gust_max_kt": 27,
+  "vis_min_m": 6000,
   "hrs_snow": 0
  },
  "hourly": [
   {
    "h": 6,
-   "wind_kt": 10.1,
-   "xwind_kt": 5,
-   "dir": 88,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 10.5,
+   "xwind_kt": 8.9,
+   "dir": 0,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 7,
-   "wind_kt": 9.3,
-   "xwind_kt": 3.7,
-   "dir": 82,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 9.7,
+   "xwind_kt": 8.2,
+   "dir": 1,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 8,
-   "wind_kt": 10.1,
-   "xwind_kt": 3,
-   "dir": 76,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 9.1,
+   "xwind_kt": 7.3,
+   "dir": 5,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 9,
-   "wind_kt": 10.1,
-   "xwind_kt": 2.4,
-   "dir": 72,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.9,
+   "xwind_kt": 6.7,
+   "dir": 10,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 10,
-   "wind_kt": 10.1,
-   "xwind_kt": 1.8,
-   "dir": 69,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.9,
+   "xwind_kt": 6.8,
+   "dir": 9,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 11,
-   "wind_kt": 9.1,
-   "xwind_kt": 0.1,
-   "dir": 58,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.7,
+   "xwind_kt": 6.9,
+   "dir": 6,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 12,
-   "wind_kt": 10.7,
-   "xwind_kt": 2.7,
-   "dir": 44,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.6,
+   "xwind_kt": 7,
+   "dir": 4,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 13,
-   "wind_kt": 12.6,
-   "xwind_kt": 5.2,
-   "dir": 34,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.4,
+   "xwind_kt": 7.1,
+   "dir": 0,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 14,
-   "wind_kt": 11.9,
-   "xwind_kt": 5.7,
-   "dir": 30,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 8.2,
+   "xwind_kt": 7.2,
+   "dir": 357,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 15,
-   "wind_kt": 11.5,
-   "xwind_kt": 6.8,
-   "dir": 22,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 7.2,
+   "xwind_kt": 6.6,
+   "dir": 351,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 16,
-   "wind_kt": 11.7,
-   "xwind_kt": 6.8,
-   "dir": 23,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 6.2,
+   "xwind_kt": 5.7,
+   "dir": 351,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 17,
-   "wind_kt": 11.9,
-   "xwind_kt": 7.2,
-   "dir": 21,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.4,
+   "xwind_kt": 5.1,
+   "dir": 348,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 18,
-   "wind_kt": 13,
-   "xwind_kt": 9.1,
-   "dir": 14,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.2,
+   "xwind_kt": 5,
+   "dir": 345,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 19,
-   "wind_kt": 15.4,
-   "xwind_kt": 12.5,
-   "dir": 4,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.4,
+   "xwind_kt": 5.1,
+   "dir": 348,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 20,
-   "wind_kt": 15.6,
-   "xwind_kt": 13.1,
-   "dir": 1,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.6,
+   "xwind_kt": 5,
+   "dir": 356,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 21,
-   "wind_kt": 15,
-   "xwind_kt": 12.9,
-   "dir": 359,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.4,
+   "xwind_kt": 4.6,
+   "dir": 0,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 22,
-   "wind_kt": 15.2,
-   "xwind_kt": 12.9,
-   "dir": 0,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.1,
+   "xwind_kt": 4.2,
+   "dir": 2,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 23,
-   "wind_kt": 14.4,
-   "xwind_kt": 12,
-   "dir": 2,
+   "wind_kt": 4.3,
+   "xwind_kt": 3.4,
+   "dir": 5,
    "pty": 0,
    "rain": 0
   }
  ],
- "generated_kst": "2026-11-08 17:45",
+ "generated_kst": "2026-11-09 17:45",
  "warnings": {
-  "pre_W": 0,
+  "pre_W": 2,
   "pre_T": 0,
   "pre_S": 0,
   "pre_R": 0
  },
  "flights": {
-  "plan": 208,
+  "plan": 207,
   "plan_source": "D-7 운항편수",
-  "d2_cancel": 0
+  "d2_cancel": 1
  }
 }
