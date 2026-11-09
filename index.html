@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>제주 표류 전망 (Jeju Pyoryu Outlook) · 하루 먼저 보는 제주 공항 결항 위기</title>
 <meta name="description" content="제주 공항의 결항 위기(결항편 승객 3,000명 이상) 가능성을 전날 17시 30분까지의 공공데이터로 하루 먼저 봅니다.">
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#EEF2F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121A1E" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-title" content="표류 전망">
+<meta property="og:type" content="website">
+<meta property="og:title" content="제주 표류 전망 · 하루 먼저 보는 제주 공항 결항 위기">
+<meta property="og:description" content="흩어진 공공데이터로 내일 제주 공항의 결항 위기 단계를 매일 17시 45분에 알려 드립니다.">
+<meta property="og:url" content="https://choihqmin.github.io/jeju-airport-risk/">
+<meta property="og:image" content="https://choihqmin.github.io/jeju-airport-risk/icons/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
@@ -34,10 +46,11 @@ a{color:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 14px;border-bottom:1px solid var(--rule)}
 /* 이름 묶음: 한글 이름이 주인, 영문 이름은 같은 기준선에 붙는 번역. 같은 글꼴을 한 단계 작고 바다색으로 써서 두 번째 제목이 아니라 번역으로 읽히게 한다 */
-.brand{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:baseline;column-gap:10px;row-gap:2px}
+.brand{display:grid;grid-template-columns:auto auto auto;justify-content:start;align-items:baseline;column-gap:10px;row-gap:2px}
+.brand .mark{grid-row:1/3;width:44px;height:44px;align-self:center;margin-right:2px}
 .brand .ko{font-weight:700;font-size:1.12rem;letter-spacing:-.02em}
 .brand .en{font-weight:500;font-size:.92rem;color:var(--sea);letter-spacing:.02em}
-.brand .tag{grid-column:1/-1;font-size:.82rem;color:var(--muted)}
+.brand .tag{grid-column:2/-1;font-size:.82rem;color:var(--muted)}
 .tabs{display:flex;background:var(--surface);border:1px solid var(--rule);border-radius:999px;padding:3px}
 .tabs button{font:inherit;font-size:.9rem;border:0;background:transparent;color:var(--muted);padding:6px 16px;border-radius:999px;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--sea);color:var(--paper)}
@@ -153,7 +166,7 @@ footer p{margin:0 0 6px;max-width:60em}
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="brand"><span class="ko">제주 표류 전망</span><span class="en" lang="en">Jeju Pyoryu Outlook</span><span class="tag">하루 먼저 보는 제주 공항 결항 위기</span></div>
+    <div class="brand"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><circle cx="256" cy="256" r="190" fill="none" stroke="var(--ink)" stroke-width="10"/><path transform="translate(256 256) rotate(-31.54)" fill="var(--sea)" fill-rule="evenodd" d="M-125.0,-27.0 H125.0 A10,10 0 0 1 135.0,-17.0 V17.0 A10,10 0 0 1 125.0,27.0 H-125.0 A10,10 0 0 1 -135.0,17.0 V-17.0 A10,10 0 0 1 -125.0,-27.0 Z M-83.7,-4.5 h38.0 v9 h-38.0 Z M-19.0,-4.5 h38.0 v9 h-38.0 Z M45.7,-4.5 h38.0 v9 h-38.0 Z"/><line x1="434.0" y1="256.0" x2="406.0" y2="256.0" stroke="var(--ink)" stroke-width="14" stroke-linecap="round"/><line x1="256.0" y1="434.0" x2="256.0" y2="406.0" stroke="var(--ink)" stroke-width="14" stroke-linecap="round"/><line x1="78.0" y1="256.0" x2="106.0" y2="256.0" stroke="var(--ink)" stroke-width="14" stroke-linecap="round"/><path d="M256,48 L276,92 L236,92 Z" fill="var(--ink)"/></svg><span class="ko">제주 표류 전망</span><span class="en" lang="en">Jeju Pyoryu Outlook</span><span class="tag">하루 먼저 보는 제주 공항 결항 위기</span></div>
     <div class="tabs" role="tablist" aria-label="보는 사람">
       <button role="tab" id="tab-ops" aria-selected="true" aria-controls="view-ops">대응 실무자</button>
       <button role="tab" id="tab-trv" aria-selected="false" aria-controls="view-trv">여행객</button>
@@ -494,5 +507,6 @@ async function main() {
 }
 main();
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
 </html>
