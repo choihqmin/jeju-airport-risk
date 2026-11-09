@@ -325,7 +325,7 @@ function drawWind(dir, kt, xw) {
   const p1 = `${ex},${ey}`, p2 = `${ex - 12 * ux + 7 * uy},${ey - 12 * uy - 7 * ux}`, p3 = `${ex - 12 * ux - 7 * uy},${ey - 12 * uy + 7 * ux}`;
   g.innerHTML = `<line x1="${sx}" y1="${sy}" x2="${ex - 8 * ux}" y2="${ey - 8 * uy}" stroke="var(--muted)" stroke-width="5" stroke-linecap="round"/>
     <polygon points="${p1} ${p2} ${p3}" fill="var(--muted)"/>
-    <text x="${sx + 12 * Math.cos(a)}" y="${sy + 12 * Math.sin(a) + 4}" text-anchor="${Math.cos(a) < -.3 ? 'end' : Math.cos(a) > .3 ? 'start' : 'middle'}" font-size="13" font-weight="600" fill="var(--ink)">${Math.round(kt)}kt</text>`;
+    <text x="${sx + 12 * Math.cos(a) + (Math.sin(a) < -.9 ? 16 : 0)}" y="${sy + 12 * Math.sin(a) + 4 + (Math.sin(a) < -.9 ? 14 : 0)}" text-anchor="${Math.sin(a) < -.9 ? 'start' : Math.cos(a) < -.3 ? 'end' : Math.cos(a) > .3 ? 'start' : 'middle'}" font-size="13" font-weight="600" fill="var(--ink)">${Math.round(kt)}kt</text>`;
   el('dialcap').textContent = `화살표는 이날 가장 센 바람(${dirName(dir)}풍 ${Math.round(kt)}kt)이 불어오는 방향입니다. 활주로와 비스듬할수록 측풍이 커집니다.`;
 }
 function factsHTML(ref, d) {
