@@ -2,15 +2,20 @@
  "target": "2026-11-10",
  "issued_kst": "2026-11-09 17:35",
  "model_p": 0.0002927323433465241,
- "basis": "model",
- "combo": null,
+ "basis": "combo",
+ "combo": 0.37954239569313597,
  "tier": 1,
- "amo_score": null,
- "token": null,
- "provisional": true,
+ "amo_score": 0,
+ "token": ".",
+ "provisional": false,
  "actual": null,
  "model_sha": "53887ccced3d62b7",
- "bulletin": null,
+ "bulletin": {
+  "issue_date": "2026-11-09",
+  "token": ".",
+  "head": "- 오늘 저녁까지 가끔 비 -",
+  "risk": "○ 없음"
+ },
  "forecast": {
   "wsd_max_kt": 10.496736,
   "xwind_max_kt": 8.946107603582982,
@@ -174,7 +179,7 @@
    "rain": 0
   }
  ],
- "generated_kst": "2026-11-09 17:45",
+ "generated_kst": "2026-11-09 20:03",
  "warnings": {
   "pre_W": 2,
   "pre_T": 0,
