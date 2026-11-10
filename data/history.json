@@ -93,7 +93,16 @@
   "amo_score": 30,
   "token": "WSV25g25",
   "provisional": false,
-  "actual": null
+  "actual": {
+   "cancel": 0,
+   "precancel": 1,
+   "flights": 212,
+   "ppf": 178.7,
+   "stranded": 0,
+   "stranded_incl_precancel": 179,
+   "crisis": 0,
+   "snapshot": "202611101710"
+  }
  },
  {
   "target": "2026-11-10",
@@ -101,6 +110,18 @@
   "model_p": 0.0002927323433465241,
   "basis": "combo",
   "combo": 0.37954239569313597,
+  "tier": 1,
+  "amo_score": 0,
+  "token": ".",
+  "provisional": false,
+  "actual": null
+ },
+ {
+  "target": "2026-11-11",
+  "issued_kst": "2026-11-10 17:35",
+  "model_p": 0.0000374199667575946,
+  "basis": "combo",
+  "combo": 0.2385598923283984,
   "tier": 1,
   "amo_score": 0,
   "token": ".",
