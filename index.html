@@ -372,7 +372,7 @@ function signals(d) {
   el('signals').innerHTML = rows.map(([k, v]) => `<div class="signal"><dt>${k}</dt><dd>${v}</dd></div>`).join('');
 }
 // 결합 단계가 늦게 정해진 날(보고서 표 A2·사전 등록서 11/11 기록과 같음)
-const LATE_COMBO = { '2026-11-08': ['전날 지연 확정(11/7 17:51)', false], '2026-11-09': ['당일 확정(11/9 20:03) · 전날 예보 성적 제외', true], '2026-11-10': ['전날 지연 확정(11/9 20:03)', false] };
+const LATE_COMBO = { '2026-11-05': ['전날 지연 확정(11/4 23:43, 첫 게시)', false], '2026-11-08': ['전날 지연 확정(11/7 17:51)', false], '2026-11-09': ['당일 확정(11/9 20:03) · 전날 예보 성적 제외', true], '2026-11-10': ['전날 지연 확정(11/9 20:03)', false] };
 function history(h) {
   const tb = document.querySelector('#hist tbody');
   if (!h.length) { el('hist-note').textContent = '아직 기록이 없습니다.'; return; }
@@ -386,7 +386,7 @@ function history(h) {
     const res = (a ? `<span class="res${a.crisis ? ' c' : ''}">${a.crisis ? '위기' : '위기 아님'}</span><small class="m-only" style="display:block">약 ${n0(a.stranded)}명</small>` : '<span class="res">채점 전</span>') + (lc ? `<small style="display:block;color:var(--muted)">${lc[0]}</small>` : '');
     return `<tr><td>${tt.m}/${tt.d}(${tt.w})</td><td><span class="nw">${t ? `<span class="dot ${t.cls}"></span>${t.word}` : '보류'}</span><small class="m-only">${src}</small></td><td class="d-only">${src}</td><td>${act}</td><td>${res}</td></tr>`;
   }).join('');
-  el('hist-note').textContent = '실제 결과는 대상일 다음 날부터 사흘 안에 받은 한국공항공사 운항 기록으로 채점하고, 한 번 정한 결과는 바꾸지 않습니다. 11월 8일·10일 대상은 예보관 발표문 반영이 늦어 결합 단계가 전날 늦게 정해졌고, 11월 9일 대상은 당일에 정해져 전날 예보 성적에서 뺐습니다. 11월 10일 발표분부터는 발표문을 자동으로 받습니다. 결항편 승객 = 국내선 출발 결항편 × 그달 편당 승객(추정, 그달 값이 아직 없으면 가장 최근 달 값). 모델과 단계 기준은 첫 예보 전에, 채점 기준은 첫 결과가 나오기 전에 정해 두었습니다.';
+  el('hist-note').textContent = '실제 결과는 대상일 다음 날부터 사흘 안에 받은 한국공항공사 운항 기록으로 채점하고, 한 번 정한 결과는 바꾸지 않습니다. 사전 등록한 경보는 ‘주의 높음’ 단계입니다. 11월 5일 대상은 서비스 첫 게시가 전날 23시 43분이었고, 11월 8일·10일 대상은 예보관 발표문 반영이 늦어 결합 단계가 전날 늦게 정해졌으며, 11월 9일 대상은 당일에 정해져 전날 예보 성적에서 뺐습니다. 11월 10일 발표분부터는 발표문을 자동으로 받습니다. 결항편 승객 = 국내선 출발 결항편 × 그달 편당 승객(추정, 그달 값이 아직 없으면 가장 최근 달 값). 모델과 단계 기준은 첫 예보 전에, 채점 기준은 첫 결과가 나오기 전에 정해 두었습니다.';
 }
 function method(ref, d) {
   const f = ref.facts;
@@ -524,6 +524,8 @@ main();
 // 오래 열어 둔 탭은 다시 볼 때 새로 불러온다(15분 넘게 지났으면)
 const LOADED = Date.now(); document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Date.now() - LOADED > 15 * 60e3) location.reload(); });
 addEventListener('online', () => location.reload());
+// 계속 열어 둔 탭도 30분마다 새 예보가 있는지 다시 불러온다
+setInterval(() => { if (document.visibilityState === 'visible' && Date.now() - LOADED > 30 * 60e3) location.reload(); }, 60e3);
 </script>
 <script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
