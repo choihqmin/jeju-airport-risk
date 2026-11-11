@@ -87,7 +87,7 @@ console.log(`latest ${latest?.target} 단계 ${latest?.tier} (${latest?.basis}) 
 if (process.argv.includes('--push')) {
   const g = (...a) => execFileSync('git', a, { cwd: SITE, stdio: 'pipe' }).toString();
   // 사이트 파일만 올린다(정해 둔 목록). 화면·도구를 고친 것도 다음 자동 실행 때 함께 올라간다.
-  const files = ['index.html', 'README.md', '.nojekyll', 'data/latest.json', 'data/history.json', 'data/reference.json', 'data/backtest_calendar.json', 'tools/publish_site.mjs'].filter(f => existsSync(path.join(SITE, f)));
+  const files = ['index.html', 'README.md', '.nojekyll', 'data/latest.json', 'data/history.json', 'data/reference.json', 'data/backtest_calendar.json', 'tools/publish_site.mjs', 'sw.js', 'manifest.webmanifest', 'icons/favicon.svg', 'icons/favicon-32.png', 'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/og-image.png'].filter(f => existsSync(path.join(SITE, f)));
   g('add', '--', ...files);
   if (!g('diff', '--cached', '--name-only').trim()) { console.log('바뀐 내용 없음 (올릴 것 없음)'); }
   else { try { g('commit', '-m', `예보 갱신 ${latest?.target ?? ''}`); g('push'); console.log('올림 완료'); } catch (e) { console.log('올리기 실패:', String(e.stderr || e.message).slice(0, 300)); process.exitCode = 1; } }
