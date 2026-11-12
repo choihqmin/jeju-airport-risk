@@ -9,3 +9,5 @@
 - `tools/publish_site.mjs` 분석 PC에서 예보 요약을 만들어 올리는 스크립트
 
 항공사·공항의 공식 안내를 대신하지 않습니다.
+
+만든 사람: 최하민 (choihqmin@gmail.com)
