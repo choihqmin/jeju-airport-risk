@@ -177,7 +177,16 @@
   "amo_score": 0,
   "token": ".",
   "provisional": false,
-  "actual": null
+  "actual": {
+   "cancel": 0,
+   "precancel": 0,
+   "flights": 210,
+   "ppf": 178.7,
+   "stranded": 0,
+   "stranded_incl_precancel": 0,
+   "crisis": 0,
+   "snapshot": "202611141710"
+  }
  },
  {
   "target": "2026-11-14",
@@ -185,6 +194,18 @@
   "model_p": 0.0046333655096241965,
   "basis": "combo",
   "combo": 0.6026244952893675,
+  "tier": 1,
+  "amo_score": 0,
+  "token": "V",
+  "provisional": false,
+  "actual": null
+ },
+ {
+  "target": "2026-11-15",
+  "issued_kst": "2026-11-14 17:35",
+  "model_p": 0.00006452924678018094,
+  "basis": "combo",
+  "combo": 0.26144010767160164,
   "tier": 1,
   "amo_score": 0,
   "token": "V",
