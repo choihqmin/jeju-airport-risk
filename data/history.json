@@ -387,7 +387,16 @@
   "amo_score": 35,
   "token": "WSV30g30",
   "provisional": false,
-  "actual": null
+  "actual": {
+   "cancel": 0,
+   "precancel": 0,
+   "flights": 205,
+   "ppf": 178.7,
+   "stranded": 0,
+   "stranded_incl_precancel": 0,
+   "crisis": 0,
+   "snapshot": "202611241710"
+  }
  },
  {
   "target": "2026-11-24",
@@ -398,6 +407,18 @@
   "tier": 2,
   "amo_score": 35,
   "token": "WSV30g25!급",
+  "provisional": false,
+  "actual": null
+ },
+ {
+  "target": "2026-11-25",
+  "issued_kst": "2026-11-24 17:35",
+  "model_p": 0.0004273097103379656,
+  "basis": "combo",
+  "combo": 0.6510767160161508,
+  "tier": 1,
+  "amo_score": 40,
+  "token": "WSV35g25!급강",
   "provisional": false,
   "actual": null
  }
