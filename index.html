@@ -410,17 +410,21 @@ function drift(H) {
   el('drift-cells').setAttribute('aria-label', `내일 6시부터 23시까지 측풍 예보. 가장 센 때는 ${pk.h}시 ${Math.round(pk.xwind_kt)}kt`);
   el('drift-cap').innerHTML = `측풍이 가장 센 때 <b>${pk.h}시 ${Math.round(pk.xwind_kt)}kt</b> <span>· ${over ? `20kt 넘는 시간 ${over}시간` : mid ? `14kt 넘는 시간 ${mid}시간` : '14kt 넘는 시간 없음'}</span><span class="drift-key"><span><b style="background:var(--amber-fill)"></b>14kt 이상</span><span><b style="background:var(--alert)"></b>20kt 이상</span></span>`;
 }
+function holdText(d) {   // 예보 보류(필요한 자료를 받지 못함): 재시도 시각과 참고할 것을 알린다
+  const h = d.bulletin && d.bulletin.head ? String(d.bulletin.head).replace(/^\s*-\s*|\s*-\s*$/g, '').trim() : '';
+  return '필요한 자료(기상특보 등)를 받지 못해 단계를 아직 내지 못했습니다. 18시 5분과 18시 35분에 자동으로 다시 시도합니다.' + (h ? ` 오늘 17시 예보관 발표문 요약: “${h}”.` : '') + ' 그동안 아래 측풍 예보와 기상청 특보, 항공사 공지를 참고하세요.';
+}
 function render(view, d, ref) {
   const t = TIER[d.tier] || null;
   document.documentElement.style.setProperty('--tier', t ? t.color : 'var(--muted)');
   el('when').textContent = `${fmtDate(d.target)} 제주 공항`;
   el('tierword').textContent = t ? (view === 'trv' ? t.trvWord : t.word) : '예보 보류'; el('tierword').classList.toggle('plain', view === 'trv');
   el('tiermark').style.left = (t ? t.mark : 50) + '%';
-  el('lede').textContent = t ? (view === 'trv' ? t.trvLede : t.lede) : '필요한 자료를 받지 못해 오늘은 예보를 내지 않았습니다.';
+  el('lede').textContent = t ? (view === 'trv' ? t.trvLede : t.lede) : holdText(d);
   el('facts').innerHTML = t && view === 'ops' ? factsHTML(ref, d) : ''; el('facts').hidden = !(t && view === 'ops');
   [...el('tierlabels').children].forEach((x, i) => x.classList.toggle('on', t && i + 1 === d.tier));
   const nx = kd(d.target);
-  el('issued').textContent = `${fmtIssued(d.issued_kst)} 모델 산출 · 다음 갱신 ${nx.m}월 ${nx.d}일 17시 45분` + (d.basis === 'model' ? ' · 예보관 발표문 반영 전 임시 단계' : '');
+  el('issued').textContent = `${fmtIssued(d.issued_kst)} ${t ? '모델 산출' : '예보 보류'} · 다음 갱신 ${nx.m}월 ${nx.d}일 17시 45분` + (d.basis === 'model' ? ' · 예보관 발표문 반영 전 임시 단계' : '');
   // 한국 시각 18시 15분이 지나면 내일 대상 예보가 올라와 있어야 한다(17시 45분 갱신 + 여유)
   const nowK = new Date(Date.now() + 9 * 3600e3), hm = nowK.getUTCHours() * 60 + nowK.getUTCMinutes();
   const expect = new Date(Date.UTC(nowK.getUTCFullYear(), nowK.getUTCMonth(), nowK.getUTCDate() + (hm >= 18 * 60 + 15 ? 1 : 0))).toISOString().slice(0, 10);
@@ -428,7 +432,7 @@ function render(view, d, ref) {
   if (stale) el('stale').textContent = offline ? `인터넷 연결이 없어 마지막으로 받은 ${fmtDate(d.target)} 예보를 보여 드립니다. 연결되면 새로고침해 주세요.`
     : `최신 예보가 아닙니다. 이 화면은 ${fmtDate(d.target)} 예보이며, 그 뒤 예보가 아직 올라오지 않았습니다.`;
   const TRV_NOW = { 1: '출발 전 항공사 앱에서 내 항공편 상태를 확인하세요.' };
-  const first = t ? (view === 'trv' ? (TRV_NOW[d.tier] || (TRV[d.tier] || [])[0]) : (TODO[d.tier] || [])[0]) : null;
+  const first = t ? (view === 'trv' ? (TRV_NOW[d.tier] || (TRV[d.tier] || [])[0]) : (TODO[d.tier] || [])[0]) : '기상청 날씨누리의 제주 공항 특보와 항공사 앱의 항공편 상태를 직접 확인하세요.';
   el('now').hidden = !first; if (first) el('now').innerHTML = `<b>지금 할 일</b> · ${first}`;
   el('todo').innerHTML = (TODO[d.tier] || []).map(x => `<li>${x}</li>`).join('');
   el('trv-todo').innerHTML = (TRV[d.tier] || []).map(x => `<li>${x}</li>`).join('');
