@@ -171,8 +171,13 @@
    "rain": 0
   }
  ],
- "generated_kst": "2026-11-26 17:45",
- "warnings": {},
+ "generated_kst": "2026-11-26 21:41",
+ "warnings": {
+  "pre_W": 0,
+  "pre_T": 0,
+  "pre_S": 0,
+  "pre_R": 0
+ },
  "flights": {
   "plan": 208,
   "plan_source": "D-7 운항편수",
