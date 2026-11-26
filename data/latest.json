@@ -1,13 +1,21 @@
 {
  "target": "2026-11-27",
- "issued_kst": "2026-11-26 17:35",
- "model_p": null,
- "basis": "none",
- "tier": null,
- "provisional": true,
+ "issued_kst": "2026-11-26 21:39",
+ "model_p": 0.006472248179939297,
+ "basis": "combo",
+ "combo": 0.6218034993270525,
+ "tier": 1,
+ "amo_score": 0,
+ "token": ".",
+ "provisional": false,
  "actual": null,
  "model_sha": "53887ccced3d62b7",
- "bulletin": null,
+ "bulletin": {
+  "issue_date": "2026-11-26",
+  "token": ".",
+  "head": "- 오늘~내일 가끔 구름많음 -",
+  "risk": "○ 없음"
+ },
  "forecast": {
   "wsd_max_kt": 14.190032,
   "xwind_max_kt": 7.63265184413739,
@@ -171,7 +179,7 @@
    "rain": 0
   }
  ],
- "generated_kst": "2026-11-26 21:41",
+ "generated_kst": "2026-11-26 21:42",
  "warnings": {
   "pre_W": 0,
   "pre_T": 0,

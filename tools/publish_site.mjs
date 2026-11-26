@@ -57,7 +57,9 @@ function hourlyOf(target, issueWind, issuePty) {
   return out;
 }
 const preds = csv(J('data/live_predictions.csv')).filter(r => r.recorded_before_target === '1');
-const byTarget = {}; for (const r of preds) if (!byTarget[r.target] || byTarget[r.target].run_kst > r.run_kst) byTarget[r.target] = r;   // 대상일마다 첫 공식 기록
+const byTarget = {}; for (const r of preds) {   // 대상일마다 '첫 유효 기록': 자료를 못 받아 보류된 기록 뒤에 대상일 전 다시 낸 유효 기록이 있으면 그것을 쓴다
+  const c = byTarget[r.target], ok = r.p_caution !== '', cOk = !!c && c.p_caution !== '';
+  if (!c || (ok && !cOk) || (ok === cOk && c.run_kst > r.run_kst)) byTarget[r.target] = r; }
 const histFile = path.join(SITE, 'data', 'history.json');
 const prev = existsSync(histFile) ? Object.fromEntries(JSON.parse(readFileSync(histFile, 'utf8')).map(h => [h.target, h])) : {};
 const history = Object.values(byTarget).sort((a, b) => a.target.localeCompare(b.target)).map(r => {
