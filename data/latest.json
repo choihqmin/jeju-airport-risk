@@ -1,193 +1,193 @@
 {
- "target": "2026-11-28",
- "issued_kst": "2026-11-27 17:35",
- "model_p": 0.01750280885466425,
+ "target": "2026-11-29",
+ "issued_kst": "2026-11-28 17:35",
+ "model_p": 0.00038578836537607545,
  "basis": "combo",
- "combo": 0.9209286675639301,
- "tier": 2,
+ "combo": 0.6695827725437415,
+ "tier": 1,
  "amo_score": 50,
- "token": "WS45g25",
+ "token": "WS45g35!급강",
  "provisional": false,
  "actual": null,
  "model_sha": "53887ccced3d62b7",
  "bulletin": {
-  "issue_date": "2026-11-27",
-  "token": "WS45g25",
-  "head": "내일 낮부터 가끔 비, 강풍, 급변풍 유의",
-  "risk": "○ (강풍, 급변풍) 내일 새벽부터 북서풍이 평균풍속 15~25kt, 최대순간풍속 25~35kt 로 강하게 불다가, 낮부터 평균풍속 20~25kt, 최대순간풍속 35~45kt로 매우 강하게 불겠고, 풍속 차이에 의한 급변풍이 발생하겠습니다.\n                             -  내일 강풍 위험 발생가능성이 높음 이상(70% 안팎)입니다. 항공안전 및 공항 운영에 유의하시기 바랍니다. "
+  "issue_date": "2026-11-28",
+  "token": "WS45g35!급강",
+  "head": "- 내일 새벽까지 강풍, 급변풍 유의 -",
+  "risk": "○ (강풍, 급변풍) 오늘 늦은밤까지 북서풍이 평균풍속 20~25kt, 최대순간풍속 35~45kt로 매우 강하게 불다가, 점차 약화되어 내일 아침까지 평균풍속 15~25kt, 최대순간풍속 25~35kt로 불겠으며, 풍속 차이에 의한 급변풍이 발생하겠습니다.\n                             -  오늘 강풍 위험 발생가능성이 높음 이상(70% 안팎)입니다. 항공안전 및 공항 운영에 유의하시기 바랍니다. \n"
  },
  "forecast": {
-  "wsd_max_kt": 27.019376,
-  "xwind_max_kt": 22.970828773724065,
-  "dir_at_max_deg": 295,
-  "hrs_xwind_ge20kt": 9,
-  "hrs_xwind_ge14kt": 18,
+  "wsd_max_kt": 13.995648000000001,
+  "xwind_max_kt": 13.991104401344671,
+  "dir_at_max_deg": 327,
+  "hrs_xwind_ge20kt": 0,
+  "hrs_xwind_ge14kt": 0,
   "hrs_snow": 0,
-  "hrs_rain": 11,
-  "issue": "2026-11-27 17:00"
+  "hrs_rain": 0,
+  "issue": "2026-11-28 17:00"
  },
  "observed_d1": {
-  "wind_max_kt": 11,
-  "xwind_max_kt": 8.613468196325345,
-  "gust_max_kt": null,
+  "wind_max_kt": 26,
+  "xwind_max_kt": 24.66216855770037,
+  "gust_max_kt": 44,
   "vis_min_m": 10000,
   "hrs_snow": 0
  },
  "hourly": [
   {
    "h": 6,
-   "wind_kt": 16.5,
-   "xwind_kt": 14.8,
-   "dir": 302,
+   "wind_kt": 14,
+   "xwind_kt": 14,
+   "dir": 327,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 7,
-   "wind_kt": 16.9,
-   "xwind_kt": 14.9,
-   "dir": 300,
+   "wind_kt": 12.6,
+   "xwind_kt": 12.6,
+   "dir": 332,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 8,
-   "wind_kt": 17.1,
-   "xwind_kt": 14.7,
-   "dir": 298,
+   "wind_kt": 10.1,
+   "xwind_kt": 10,
+   "dir": 336,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 9,
-   "wind_kt": 17.5,
-   "xwind_kt": 14.9,
-   "dir": 297,
+   "wind_kt": 8.7,
+   "xwind_kt": 8.6,
+   "dir": 340,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 10,
-   "wind_kt": 19.8,
-   "xwind_kt": 15.7,
-   "dir": 291,
+   "wind_kt": 7.4,
+   "xwind_kt": 7.2,
+   "dir": 340,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 11,
-   "wind_kt": 21.4,
-   "xwind_kt": 16.3,
-   "dir": 288,
+   "wind_kt": 6.4,
+   "xwind_kt": 6.3,
+   "dir": 337,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 12,
-   "wind_kt": 22.9,
-   "xwind_kt": 18,
-   "dir": 290,
+   "wind_kt": 6.2,
+   "xwind_kt": 6.2,
+   "dir": 330,
    "pty": 0,
    "rain": 0
   },
   {
    "h": 13,
-   "wind_kt": 24.5,
-   "xwind_kt": 19.4,
-   "dir": 291,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 6.6,
+   "xwind_kt": 6.6,
+   "dir": 324,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 14,
-   "wind_kt": 25.7,
-   "xwind_kt": 20.4,
-   "dir": 291,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 6.6,
+   "xwind_kt": 6.6,
+   "dir": 324,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 15,
-   "wind_kt": 26,
-   "xwind_kt": 20.7,
-   "dir": 291,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.8,
+   "xwind_kt": 5.8,
+   "dir": 328,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 16,
-   "wind_kt": 25.1,
-   "xwind_kt": 19.9,
-   "dir": 291,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 4.5,
+   "xwind_kt": 4.5,
+   "dir": 332,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 17,
-   "wind_kt": 25.7,
-   "xwind_kt": 21.9,
-   "dir": 297,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 2.7,
+   "xwind_kt": 2.7,
+   "dir": 335,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 18,
-   "wind_kt": 25.9,
-   "xwind_kt": 21.6,
-   "dir": 295,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 0.2,
+   "xwind_kt": 0.1,
+   "dir": 270,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 19,
-   "wind_kt": 27,
-   "xwind_kt": 22.5,
-   "dir": 295,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 1.2,
+   "xwind_kt": 1.1,
+   "dir": 171,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 20,
-   "wind_kt": 25.7,
-   "xwind_kt": 23,
-   "dir": 302,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 2.5,
+   "xwind_kt": 2.1,
+   "dir": 184,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 21,
-   "wind_kt": 24.5,
-   "xwind_kt": 22.8,
-   "dir": 307,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 4.3,
+   "xwind_kt": 2.6,
+   "dir": 201,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 22,
-   "wind_kt": 23.1,
-   "xwind_kt": 22.1,
-   "dir": 311,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 5.8,
+   "xwind_kt": 3.5,
+   "dir": 201,
+   "pty": 0,
+   "rain": 0
   },
   {
    "h": 23,
-   "wind_kt": 21.8,
-   "xwind_kt": 20.9,
-   "dir": 312,
-   "pty": 1,
-   "rain": 1
+   "wind_kt": 7.2,
+   "xwind_kt": 4.9,
+   "dir": 196,
+   "pty": 0,
+   "rain": 0
   }
  ],
- "generated_kst": "2026-11-27 17:45",
+ "generated_kst": "2026-11-28 17:45",
  "warnings": {
-  "pre_W": 1,
+  "pre_W": 2,
   "pre_T": 0,
   "pre_S": 0,
   "pre_R": 0
  },
  "flights": {
-  "plan": 210,
+  "plan": 206,
   "plan_source": "D-7 운항편수",
   "d2_cancel": 0
  }
